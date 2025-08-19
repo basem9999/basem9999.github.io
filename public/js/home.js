@@ -515,7 +515,7 @@ async function init() {
   // 1. token check
   const token = localStorage.getItem("authToken");
   if (!token) {
-    window.location.href = "/templates/login.html";
+    window.location.href = "/index.html";
     return;
   }
 
@@ -536,7 +536,7 @@ async function init() {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("authToken");
-      window.location.href = "/templates/login.html";
+      window.location.href = "/index.html";
     });
   }
 }

@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Login successful, token saved:", token);
 
       await fetchUserData(token);
-      window.location.href = "/templates/home.html";
+      window.location.href = "/home.html";
 
     } catch (err) {
       console.error(err);
