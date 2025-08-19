@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // 5) Clean, store, and use
       token = token.replace(/^\uFEFF/, "").trim();
       localStorage.setItem("authToken", token);
-      console.log("Login successful, token saved:", token);
 
       await fetchUserData(token);
       window.location.href = "/home.html";
