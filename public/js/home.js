@@ -511,6 +511,15 @@ function setupButtons() {
   if (active) renderView(active.dataset.view || "welcome");
 }
 
+function signOutAndRedirect(reason) {
+  try { localStorage.removeItem("authToken"); } catch (e) { console.warn(e); }
+  try { localStorage.removeItem("ig precent"); } catch (e) { console.warn(e); }
+  console.warn("Signing out due to:", reason);
+  // optionally show a short message to user before redirect
+  // (avoid long delays — redirect immediately so they cannot view protected UI)
+  window.location.href = "/index.html";
+}
+
 async function init() {
   // 1. token check
   const token = localStorage.getItem("authToken");
@@ -524,7 +533,24 @@ async function init() {
     cachedData = await fetchUserData(token);
   } catch (err) {
     console.error("Could not fetch user data:", err);
-    // still allow user to see UI but show error
+
+    // Normalize error message for detection
+    const msg = String(err?.message || err);
+
+    // If server indicates the JWT is expired / invalid, sign out and redirect
+    // covers messages like: "Could not verify JWT: JWTExpired" or anything with "expired" / "jwt"
+    if (/jwt.*expired/i.test(msg) || /jwtexpired/i.test(msg) || /could not verify jwt/i.test(msg) || /expired/i.test(msg)) {
+      // Give the user a short alert (optional) then sign out
+      try {
+        // small UX touch: let them know session expired
+        // If you prefer no alert, remove the next line.
+        alert("Session expired — you will be signed out and returned to the login page.");
+      } catch (ignore) {}
+      signOutAndRedirect(msg);
+      return;
+    }
+
+    // For other errors, don't redirect — show an empty dataset so UI doesn't break
     cachedData = { data: {} };
   }
 
@@ -536,10 +562,13 @@ async function init() {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("authToken");
+      localStorage.removeItem("ig precent");
       window.location.href = "/index.html";
     });
   }
 }
+
+
 
 // run
 document.addEventListener("DOMContentLoaded", init);

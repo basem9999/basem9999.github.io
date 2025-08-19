@@ -33,17 +33,34 @@ export async function fetchUserData(token) {
       }
     );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch data from GraphQL");
+    // 6. Try to parse JSON body (server may return error info inside JSON)
+    let data;
+    try {
+      data = await res.json();
+    } catch (e) {
+      // Not JSON — fall back to text
+      const text = await res.text();
+      throw new Error(`GraphQL response not JSON: ${text || res.status}`);
     }
 
-    // 6. Parse and return the JSON payload
-    const data = await res.json();
+    // 7. If server sent GraphQL errors, surface those messages
+    if (data && Array.isArray(data.errors) && data.errors.length > 0) {
+      // join messages so we can detect JWTExpired etc.
+      const joined = data.errors.map(err => err.message || JSON.stringify(err)).join("; ");
+      throw new Error(joined);
+    }
+
+    // 8. If the HTTP status was not OK but there were no GraphQL errors above,
+    //    still throw a useful message containing status.
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data from GraphQL (status ${res.status})`);
+    }
+
     console.log("GraphQL data:", data);
     return data;
   } catch (err) {
     console.error("fetchUserData error:", err);
-    // Re-throw if you want callers to handle it too
+    // Re-throw for callers to handle (home.js will handle JWTExpired specifically)
     throw err;
   }
 }
