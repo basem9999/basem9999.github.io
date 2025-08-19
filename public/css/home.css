@@ -1,0 +1,268 @@
+/* base / shared with login style */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;        /* stack card + buttons vertically */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../icons/background-image.jpeg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* bigger card to fit content */
+.glass-container {
+    width: 320px;
+    height: 260px; /* card height */
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px; /* space between card and buttons */
+}
+
+.glass-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: -1;
+}
+
+.login-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* top content stays at top */
+    align-items: center;
+}
+
+/* top area */
+.card-top {
+    width: 100%;
+    text-align: center;
+    padding-top: 6px;
+}
+
+h2 {
+    color: #fff;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    font-size: 20px;
+}
+
+/* content area inside the card */
+.card-content {
+    color: #fff;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.muted {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* ---------- BUTTONS WRAPPER (outside card) ---------- */
+.buttons-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0; /* spacing handled by .glass-container margin-bottom */
+}
+
+/* ensure row matches card width and is centered */
+.buttons-wrapper .card-buttons {
+    width: 320px; /* match .glass-container width */
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 8px;
+}
+
+/* each small button */
+.card-btn {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    padding: 6px;
+}
+
+/* the circular image placeholder inside button */
+.btn-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+  position: relative;  /* needed for top/left offsets */
+  top: var(--btn-top, 0px);      /* default 0 if not overridden */
+  left: var(--btn-left, 0px);    /* default 0 if not overridden */
+}
+
+.btn-img img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+}
+
+
+/* hover / focus states */
+.card-btn:hover,
+.card-btn:focus {
+    background: rgba(255,255,255,0.18);
+    transform: translateY(-2px);
+    outline: none;
+    border-color: rgba(255,255,255,0.22);
+}
+
+/* active button: behave like it's permanently hovered */
+.card-btn.active {
+    background: rgba(255,255,255,0.18);   /* same as hover */
+    border-color: rgba(255,255,255,0.22); /* same as hover */
+    transform: translateY(-2px);          /* lifted like hover */
+    outline: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12); /* subtle elevation */
+}
+
+/* ensure the inner placeholder keeps the default contrast (no black override) */
+.card-btn.active .btn-img {
+    background: rgba(255,255,255,0.14); /* same as default .btn-img */
+}
+
+/* keep active appearance even when hovered/focused (do not let hover override) */
+.card-btn.active:hover,
+.card-btn.active:focus {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.22);
+    transform: translateY(-2px);
+}
+
+/* accessibility focus ring */
+.card-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+}
+
+/* small responsive tweak */
+@media (max-width: 360px) {
+    .glass-container { width: 280px; height: 260px; margin-bottom: 12px; }
+    .buttons-wrapper .card-buttons { width: 280px; gap: 6px; padding: 6px; }
+    .card-btn { width: 44px; height: 44px; }
+    .btn-img { width: 28px; height: 28px; }
+}
+
+.btn-img {
+  position: relative;
+}
+.btn-img img {
+  position: absolute;
+  top: var(--img-top, 48%);   /* fallback to 44% if variable not set */
+  left: var(--img-left, 42%); /* fallback to 42% if variable not set */
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+}
+
+/* Logout button styled like the login button */
+.logout-btn {
+  position: absolute;
+  top: 12px;               /* distance from top of .glass-container */
+  right: 12px;             /* distance from right of .glass-container */
+  background: #fff;        /* white fill like login button */
+  color: #000;             /* black text */
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.18s ease;
+}
+
+/* Hover / focus state: match login button hover (invert) */
+.logout-btn:hover,
+.logout-btn:focus {
+  background: transparent;
+  color: #fff;
+  outline: 1px solid #fff;
+  transform: translateY(-2px);
+}
+
+/* Make sure focus-visible is accessible */
+.logout-btn:focus-visible {
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+  outline: none;
+}
+
+/* small responsive tweak if card width shrinks */
+@media (max-width: 360px) {
+  .logout-btn {
+    top: 10px;
+    right: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Allow card content to scroll when inner content is taller than the card */
+.card-content {
+  /* limit height so the content area doesn't overflow the glass card */
+  max-height: 170px; /* adjust if you want more/less visible space */
+  overflow: auto;    /* add scrollbars when content is larger */
+  padding-right: 6px; /* small room for scrollbar so content doesn't jump */
+}
+
+/* Pie chart container sizing + centering */
+#pie-chart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 8px;
+}
+
+/* Make the SVG responsive inside the card; limit its maximum size */
+#pie-chart svg {
+  max-width: 260px;  /* keep it smaller than the 320px card width */
+  width: 100%;       /* allow it to shrink on small screens */
+  height: auto;
+  display: block;
+}
+
+/* Optional: nicer thin scrollbar for modern browsers (non-essential) */
+.card-content::-webkit-scrollbar { width: 8px; height: 8px; }
+.card-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 6px; }
+.card-content::-webkit-scrollbar-track { background: transparent; }
+
+#spider-chart svg { max-width: 180px; width: 100%; height: auto; display:block; }
+#spider-chart text { pointer-events: none; }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/public/css/home.css" />
+</head>
+<body>
+    <!-- card (glass container) -->
+    <div class="glass-container">
+        <div class="login-box">
+            <div class="card-top">
+                <h2 id="card-title">Hello There!</h2>
+                <div id="card-content" class="card-content">
+                    <p id="welcome-message">Loading your data...</p>
+                    <!-- Example fields (will be filled by JS) -->
+                    <p id="user-id" class="muted"></p>
+                    <p id="user-email" class="muted"></p>
+                    <p id="user-xp" class="muted"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- buttons row placed UNDER the glass-container -->
+    <div class="buttons-wrapper">
+        <div class="card-buttons" role="tablist" aria-label="Profile views">
+
+            <button class="card-btn active" data-view="welcome" title="Welcome">
+                <div class="btn-img" style="--img-size:25px;">
+                    <img src="/public/icons/waving-hand.png" alt="Welcome"
+                    style="width: var(--img-size); height: var(--img-size); border-radius: 50%;" />
+                </div>
+            </button>
+            
+            <button class="card-btn" data-view="activity" title="Ratio">
+            <div class="btn-img" style="--img-size:20px; --img-top:51%; --img-left:49%;">
+                <img src="/public/icons/percent.png" alt="Welcome"
+                    style="width: var(--img-size); height: var(--img-size);" />
+            </div>
+            </button>
+
+            <button class="card-btn" data-view="xp" title="Top projects">
+            <div class="btn-img" style="--img-size:25px; --img-top:51%; --img-left:50%;">
+                <img src="/public/icons/top-three.png" alt="Welcome"
+                    style="width: var(--img-size); height: var(--img-size);" />
+            </div>
+            </button>
+
+            <button class="card-btn" data-view="projects" title="Top skills">
+            <div class="btn-img" style="--img-size:20px; --img-top:51%; --img-left:49%;">
+                <img src="/public/icons/skills.png" alt="Welcome"
+                    style="width: var(--img-size); height: var(--img-size);" />
+            </div>
+            </button>
+
+            <button class="card-btn" data-view="stats" title="History">
+            <div class="btn-img" style="--img-size:20px; --img-top:51%; --img-left:49%;">
+                <img src="/public/icons/history.png" alt="Welcome"
+                    style="width: var(--img-size); height: var(--img-size);" />
+            </div>
+            </button>
+        </div>
+    </div>
+
+    <button id="logout-btn" class="logout-btn" title="Logout" aria-label="Logout">Logout</button>
+    <!-- load d3 as a global first (non-module bundle) -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+
+    <!-- then load the module that uses the global 'd3' -->
+    <script type="module" src="/public/js/home.js"></script>
+</body>
+</html>
+
+
+<!--
+    /root/templates/home.html
+    /root/public/js/home.js
+    /root/public/css/home.css
+-->

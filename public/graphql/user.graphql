@@ -1,0 +1,54 @@
+{
+  user {
+    login
+    firstName
+    lastName
+    id
+    email
+
+    # Total XP up/down for ratio
+    totalUp
+    totalDown
+
+    # Aggregate of all XP transactions
+    transactions_aggregate(where: { type: { _eq: "xp" } }) {
+      aggregate {
+        sum {
+          amount
+        }
+      }
+    }
+
+    # Latest 10 XP transactions
+    transactions(
+      where: { type: { _eq: "xp" } }
+      order_by: { createdAt: desc }
+      limit: 10
+    ) {
+      amount
+      createdAt
+      path
+    }
+
+    # Top 10 XP transactions by amount
+    topTransactions: transactions(
+      where: { type: { _eq: "xp" } }
+      order_by: { amount: desc }
+      limit: 10
+    ) {
+      amount
+      createdAt
+      path
+    }
+
+    # Top skills (distinct per skill type)
+    topSkills: transactions(
+      where: { type: { _like: "skill_%" } }
+      distinct_on: type
+      order_by: [{ type: asc }, { amount: desc }]
+    ) {
+      type
+      amount
+    }
+  }
+}
