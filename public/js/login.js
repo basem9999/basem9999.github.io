@@ -1,6 +1,14 @@
 import { fetchUserData } from "./graphql.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // --- Guard: if already logged in, redirect to home immediately ---
+  const existingToken = localStorage.getItem("authToken");
+  if (existingToken) {
+    // User already has a token — go to home.
+    window.location.href = "/home.html";
+    return;
+  }
+
   const form          = document.querySelector("form");
   const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
@@ -15,6 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     errorDiv.textContent = "";
+
+    // If someone bypassed the initial redirect (F12), remove the interfering token
+    // BEFORE attempting to sign in.
+    try {
+      localStorage.removeItem("ig precent");
+    } catch (remErr) {
+      // ignore — removal failure shouldn't block login
+      console.warn("Could not remove 'ig precent' from localStorage:", remErr);
+    }
 
     const username    = usernameInput.value.trim();
     const password    = passwordInput.value.trim();
@@ -48,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 2) Parse the body → might be a JSON string literal or JSON object
       let bodyText = await res.text();
       let parsed;
-      try {parsed = JSON.parse(bodyText);} catch {parsed = bodyText;}
+      try { parsed = JSON.parse(bodyText); } catch { parsed = bodyText; }
 
       // 3) Extract the JWT
       let token;
@@ -58,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (parsed && typeof parsed === "object") {
         // endpoint returned { token: "..."} or similar
         token = parsed.token || parsed.accessToken || parsed.jwt || parsed.data?.token || parsed.data?.accessToken;
-        //todo: ask for the exact structure of the response ///////////////////////////////////////////////////////////////////////////////////////////////////
       }
 
       // 4) If we still don’t have a token, throw
