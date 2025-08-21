@@ -73,16 +73,16 @@ function renderPieChart() {
   ];
 
   // Chart size
-  const width = 300;
-  const height = 300;
+  const width = 200;
+  const height = 200;
   const radius = Math.min(width, height) / 2;
 
   // Create svg and group centered
   const svg = d3.select("#pie-chart")
     .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)   // keep viewBox for scaling
+    .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("role", "img")
-    .style("max-width", "260px")                 // control visual size from CSS/JS
+    .style("max-width", "180px")   // fits nicely inside glass-container
     .style("width", "100%")
     .style("height", "auto")
     .append("g")
