@@ -17,12 +17,18 @@ body {
 
 .glass-container {
     width: 300px;
-    height: 350px;
+    min-height: 350px;        /* allow it to grow past 350px when needed */
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+
+    /* layout so children stack vertically and can stretch */
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* centers the login box horizontally */
+    padding: 18px;            /* breathing room inside the glass card */
 }
 
 .glass-container::before {
@@ -37,8 +43,8 @@ body {
 }
 
 .login-box {
+    width: 100%;
     max-width: 250px;
-    margin: 0 auto;
     text-align: center;
 }
 
@@ -81,9 +87,15 @@ input:focus {
     color: white;
 }
 
-.options input {
-    margin-right: 5px;
-    margin-top: 0px;
+/* removed checkbox-specific rules; new button style */
+.login-as-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
 }
 
 .options a {
@@ -92,7 +104,7 @@ input:focus {
     margin-left: auto;
 }
 
-button {
+button[type="submit"] {
     background: #fff;
     color: black;
     padding: 10px;
@@ -102,7 +114,7 @@ button {
     margin-top: 15px;
 }
 
-button:hover {
+button[type="submit"]:hover {
     background: transparent;
     color: white;
     outline: 1px solid #fff;
@@ -124,16 +136,18 @@ p {
 .error-box {
   display: block;
   margin-top: 12px;
-  padding: 8px 12px;
+  padding: 10px 12px 10px 18px; /* a bit extra left padding so text clears the red bar */
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04); /* subtle glass */
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;                            /* main text color */
+  color: #fff;
   font-size: 0.95em;
   text-align: left;
   line-height: 1.2;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   position: relative;
+  width: 100%;                /* stretch to the inside width of the glass container */
+  box-sizing: border-box;     /* include padding in width calculation */
 }
 
 /* red accent bar on the left */
@@ -146,13 +160,13 @@ p {
   width: 6px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  background: linear-gradient(180deg,#ff6b6b,#ff4d4f); /* red gradient */
+  background: linear-gradient(180deg,#ff6b6b,#ff4d4f);
 }
-
 /* smaller / mobile tweak */
 @media (max-width: 360px) {
+  .glass-container { width: calc(100% - 24px); }
   .error-box {
     font-size: 0.9em;
-    padding: 7px 10px;
+    padding: 7px 10px 7px 16px;
   }
 }
