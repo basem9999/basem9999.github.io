@@ -24,30 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // keep error inside the card and allow it to stretch with the card
   glass.appendChild(errorDiv);
 
-  // Auto-login button (base64 encoded credentials provided by user)
-  const loginAsBtn = document.getElementById("login-as-bajaafar");
-  const encodedAutoCreds = "YmFzZW1qYWFmYXI1QGdtYWlsLmNvbToyMTE5NTEzQmFzZW0jIw==";
-
-  loginAsBtn.addEventListener("click", () => {
-    try {
-      const decoded = atob(encodedAutoCreds);
-      const parts = decoded.split(":");
-      if (parts.length < 2) throw new Error("Invalid encoded credentials");
-      const u = parts.shift();
-      const p = parts.join(":"); // in case password contains colons
-      usernameInput.value = u;
-      passwordInput.value = p;
-      // submit the form programmatically (triggers same submit handler)
-      const submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn) submitBtn.click();
-      else form.requestSubmit?.();
-    } catch (e) {
-      console.error("Auto-login failed:", e);
-      errorDiv.textContent = "Auto-login failed.";
-      errorDiv.style.display = "block";
-    }
-  });
-
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     // clear previous error and hide
