@@ -1,5 +1,0 @@
-POST https://learn.reboot01.com/api/auth/signin
-Authorization: Basic YmFzZW1qYWFmYXI1QGdtYWlsLmNvbToyMTE5NTEzQmFzZW0jIw==
-Content-Type: application/json
-
-{}

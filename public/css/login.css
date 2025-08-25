@@ -17,7 +17,7 @@ body {
 
 .glass-container {
     width: 300px;
-    min-height: 350px;        /* allow it to grow past 350px when needed */
+    min-height: 350px;
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.1);
@@ -27,8 +27,8 @@ body {
     /* layout so children stack vertically and can stretch */
     display: flex;
     flex-direction: column;
-    align-items: center;      /* centers the login box horizontally */
-    padding: 18px;            /* breathing room inside the glass card */
+    align-items: center;
+    padding: 18px;
 }
 
 .glass-container::before {
@@ -87,17 +87,6 @@ input:focus {
     color: white;
 }
 
-/* removed checkbox-specific rules; new button style */
-.login-as-btn {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
 .options a {
     text-decoration: none;
     color: white;
@@ -132,11 +121,11 @@ p {
     font-weight: bold;
 }
 
-/* Error box — glassy look with red accent */
+/* Error box */
 .error-box {
   display: block;
   margin-top: 12px;
-  padding: 10px 12px 10px 18px; /* a bit extra left padding so text clears the red bar */
+  padding: 10px 12px 10px 18px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -146,8 +135,8 @@ p {
   line-height: 1.2;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   position: relative;
-  width: 100%;                /* stretch to the inside width of the glass container */
-  box-sizing: border-box;     /* include padding in width calculation */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* red accent bar on the left */
@@ -162,7 +151,7 @@ p {
   border-bottom-left-radius: 8px;
   background: linear-gradient(180deg,#ff6b6b,#ff4d4f);
 }
-/* smaller / mobile tweak */
+/* smaller tweak */
 @media (max-width: 360px) {
   .glass-container { width: calc(100% - 24px); }
   .error-box {

@@ -1,4 +1,3 @@
-// /root/public/js/views/welcome.js
 import { calculateXp } from "../home.js";
 
 export function renderWelcome(cachedData, getHelper) {
@@ -6,7 +5,6 @@ export function renderWelcome(cachedData, getHelper) {
     try { const v = fn(); return v ?? fallback; } catch { return fallback; }
   });
 
-  // user is always inside an array from your GraphQL query
   const rawUser = get(() => cachedData.data.user, null);
   const user = Array.isArray(rawUser) ? rawUser[0] : rawUser;
 
@@ -16,17 +14,13 @@ export function renderWelcome(cachedData, getHelper) {
   const firstName = user?.firstName || "";
   const lastName = user?.lastName || "";
 
-  // 1️⃣ Try aggregate XP first
   let xpAmount = get(() => Number(user.transactions_aggregate.aggregate.sum.amount), null);
-
-  // 2️⃣ Fallback: sum user.transactions array if aggregate missing
   if (xpAmount == null) {
     const transactions = Array.isArray(user?.transactions) ? user.transactions : [];
     xpAmount = transactions.reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
   }
 
   const xpFormatted = calculateXp(xpAmount);
-
   document.getElementById("card-title").textContent = "Hello There!";
   document.getElementById("card-content").innerHTML = `
     <p id="welcome-message">Welcome, <strong>${username}</strong>!</p>
