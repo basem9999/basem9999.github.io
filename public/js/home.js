@@ -1,6 +1,6 @@
 import { fetchUserData } from "./graphql.js";
 import { renderWelcome } from "./views/welcome.js";
-import { renderPieChart } from "./views/Audits.js";
+import { renderPieChart } from "./views/auditsView.js";
 import { renderProjects, renderStats } from "./views/projects.js";
 import { renderSkillsView } from "./views/topSkills.js";
 
