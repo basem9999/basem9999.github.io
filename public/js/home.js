@@ -39,7 +39,7 @@ function renderPieChart() {
   const cardContent = document.getElementById("card-content");
   if (!cardTitle || !cardContent) return;
 
-  cardTitle.textContent = "Audit Ratio";
+  cardTitle.textContent = "Audits Overview";
 
   // read user data defensively from cachedData
   const user = get(() => cachedData.data.user && cachedData.data.user[0], null);
@@ -47,11 +47,20 @@ function renderPieChart() {
   const totalDown = Number(get(() => user.totalDown, 0)) || 0;
   const total = totalUp + totalDown;
 
-  // inject the small title + pie container into the card content
+  // compute the ratio (Audits Done / Audits Received) and format to one decimal place
+  const ratio = totalDown === 0 ? null : totalUp / totalDown;
+  const ratioText = ratio == null ? "—" : (Math.round(ratio * 10) / 10).toFixed(1);
+
+  // render a compact, centered ratio display and keep the pie-chart container below
   cardContent.innerHTML = `
-    <p class="muted" id="total-audits-title">Audits Done: ${formatNumber(totalUp)} | Audits Received: ${formatNumber(totalDown)}</p>
+    <div style="text-align:center; padding-top:6px;">
+      <div class="muted" style="font-size:14px; font-weight:600;">
+        Audit ratio : <span style="font-size:20px; font-weight:700;">${ratioText}</span>
+      </div>
+    </div>
     <div id="pie-chart" style="display:flex;justify-content:center;align-items:center;padding-top:8px;"></div>
   `;
+
 
   // clear old chart (defensive)
   d3.select("#pie-chart").selectAll("*").remove();
@@ -213,7 +222,7 @@ function renderXP() {
 
   // wrap items in a scrollable container so it stretches but doesn't overflow the glass card
   document.getElementById("card-content").innerHTML = `
-    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(${totalXP})</span></p>
+    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for all events)</span></p>
     <div style="max-height:170px; overflow:auto; padding-right:6px; margin-top:6px;">
       <ul style="list-style:none;padding:0;margin:0;">
         ${items}
@@ -473,7 +482,7 @@ function renderStats() {
   }).join("");
 
   document.getElementById("card-content").innerHTML = `
-    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(${totalXP})</span></p>
+    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for all events)</span></p>
     <div style="max-height:170px; overflow:auto; padding-right:6px; margin-top:6px;">
       <ul style="list-style:none;padding:0;margin:0;">
         ${items}
