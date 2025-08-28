@@ -13,9 +13,17 @@ export function renderPieChart(cachedData, getHelper) {
   const totalDown = Number(get(() => user.totalDown, 0)) || 0;
   const total = totalUp + totalDown;
 
-  // compute ratio
-  const ratio = totalDown === 0 ? null : totalUp / totalDown;
-  const ratioText = ratio == null ? "—" : (Math.round(ratio * 10) / 10).toFixed(1);
+  // compute ratio (safe for divide-by-zero)
+  const ratioRaw = totalDown === 0 ? (totalUp === 0 ? null : Infinity) : totalUp / totalDown;
+
+  let ratioText;
+  if (ratioRaw == null) {
+    ratioText = "—";
+  } else if (!Number.isFinite(ratioRaw)) {
+    ratioText = "∞";
+  } else {
+    ratioText = (Math.round(ratioRaw * 10) / 10).toFixed(1);
+  }
 
   cardContent.innerHTML = `
     <div style="text-align:center; padding-top:6px;">
