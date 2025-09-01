@@ -31,7 +31,12 @@ export function renderWelcome(cachedData, getHelper) {
 
     <!-- informational box styled the same as the login error-box -->
     <div class="error-box" role="note" aria-live="polite" style="display:block; margin-top:12px;">
-      Tip: Use the buttons to explore different views of your progress.
+      Use the buttons above to switch between different views of your progress. Each view highlights your stats in a unique way, so try them all to get a complete picture of how you’re doing over time.
     </div>
   `;
+
+  // add the centering class so this content is vertically centered in the card
+  const cc = document.getElementById("card-content");
+  if (cc) cc.classList.add("centered");
 }
+

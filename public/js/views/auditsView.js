@@ -1,4 +1,4 @@
-import { formatNumber, formatPercent, get} from "../home.js";
+import { formatNumber, formatPercent, get } from "../home.js";
 
 export function renderPieChart(cachedData, getHelper) {
   const cardTitle = document.getElementById("card-title");
@@ -47,8 +47,8 @@ export function renderPieChart(cachedData, getHelper) {
   }
 
   const data = [
-    { label: "Audits Done", value: totalUp },
-    { label: "Audits Received", value: totalDown }
+    { label: "Done", value: totalUp },
+    { label: "Received", value: totalDown }
   ];
 
   const width = 200;
@@ -94,14 +94,21 @@ export function renderPieChart(cachedData, getHelper) {
       return t => arc(i(t));
     });
 
-  svg.selectAll("text.slice-label")
-    .data(pie(data))
-    .enter()
-    .append("text")
-    .attr("class", "slice-label")
-    .attr("transform", d => `translate(${arcLabel.centroid(d)})`)
-    .attr("text-anchor", "middle")
-    .style("font-size", "12px")
-    .style("fill", "white")
-    .text(d => `${d.data.label} (${formatPercent(d.data.value, total)})`);
+  // labels now only show "Done" or "Received"
+svg.selectAll("text.slice-label")
+  .data(pie(data))
+  .enter()
+  .append("text")
+  .attr("class", "slice-label")
+  .attr("transform", d => {
+    const [x, y] = arcLabel.centroid(d);
+    const scale = 0.8; // 0 = center, 1 = original position (closer to edge)
+    return `translate(${x * scale}, ${y * scale})`;
+  })
+  .attr("text-anchor", "middle")
+  .style("font-size", "12px")
+  .style("font-weight", "600")
+  .style("fill", "white")
+  .style("text-shadow", "1px 1px 2px rgba(0,0,0,0.6)")
+  .text(d => d.data.label);
 }

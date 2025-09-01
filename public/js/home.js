@@ -39,6 +39,15 @@ export function calculateXp(totalXP) {
 }
 
 function renderView(name) {
+  const cc = document.getElementById("card-content");
+  if (cc) {
+    if (name === "welcome") {
+      cc.classList.add("centered");
+    } else {
+      cc.classList.remove("centered");
+    }
+  }
+
   switch (name) {
     case "welcome": renderWelcome(cachedData, get); break;
     case "activity": renderPieChart(cachedData); break;

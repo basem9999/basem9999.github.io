@@ -38,7 +38,6 @@ export function renderSkillsView(cachedData) {
   const skills = getTopSkillsFromCached(cachedData, 6);
 
   cardContent.innerHTML = `
-    <p class="muted">Your top skills (by amount)</p>
     <div id="spider-chart" style="margin-top:10px; display:flex; justify-content:center; align-items:center;"></div>
   `;
 
@@ -60,8 +59,8 @@ function renderSpiderChart(skills) {
     index: i
   }));
 
-  const width = 180;
-  const height = 180;
+  const width = 220;
+  const height = 220;
   const baseRadius = Math.min(width, height) / 2;
   const scaleFactor = 0.78;
   const radius = baseRadius * scaleFactor;

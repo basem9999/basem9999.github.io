@@ -1,112 +1,153 @@
 * {
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('../icons/background-image.jpeg');
-    background-size: cover;
-    background-position: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('../icons/background-image.jpeg');
+  background-size: cover;
+  background-position: center;
+  padding: 18px;
 }
 
+/* Fixed card width (500px) with small-screen fallback
+   and a fixed height so all views use the same card height */
 .glass-container {
-    width: 320px;
-    height: 260px;
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 14px;
+  width: 500px;
+  max-width: calc(100% - 36px);
+  min-width: 280px;
+
+  /* fixed height shared across views (change this value if you want a different card height) */
+  height: 360px;
+
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.30);
+  border-radius: 14px;
+
+  /* reduced vertical padding so inner area reaches near the bottom but still keeps breathing room */
+  padding: 14px 20px;
+
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* transparent blurred backdrop */
 .glass-container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: -1;
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: -1;
 }
 
+/* MAKE THE INNER BOXES FLEXIBLE so card-content can stretch and scroll */
 .login-box {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  flex: 1 1 auto;  /* grow to fill card vertical space */
+  min-height: 0;   /* critical to allow children with overflow to work inside flex containers */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
+/* header area */
 .card-top {
-    width: 100%;
-    text-align: center;
-    padding-top: 6px;
+  width: 100%;
+  text-align: left;
+  padding-top: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
 }
 
+/* heading */
 h2 {
-    color: #fff;
-    margin-top: 8px;
-    margin-bottom: 4px;
-    font-size: 20px;
+  color: #fff;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 22px;
+  font-weight: 600;
 }
 
+/* CARD CONTENT now fills remaining vertical space and scrolls when necessary */
 .card-content {
-    color: #fff;
-    font-size: 14px;
-    margin-top: 6px;
+  color: #fff;
+  font-size: 15px;
+  margin-top: 4px;
+
+  /* card-content is the only scrollable area */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+
+  padding: 8px;
+  background: transparent;
+  border-radius: 8px;
 }
 
+/* muted text */
 .muted {
-    color: rgba(255,255,255,0.8);
-    font-size: 13px;
-    margin-top: 6px;
+  color: rgba(255,255,255,0.85);
+  font-size: 13.5px;
+  margin-top: 8px;
 }
 
+/* Buttons wrapper now matches the 500px card width */
 .buttons-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0;
+  width: 500px;
+  max-width: calc(100% - 36px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
 }
 
 .buttons-wrapper .card-buttons {
-    width: 320px;
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 6px 8px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px;
 }
 
+/* Bigger, friendlier buttons */
 .card-btn {
-    flex: 1 1 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.18s ease;
-    padding: 6px;
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  padding: 6px;
 }
 
+/* circular icon container */
 .btn-img {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(255,255,255,0.14);
   display: flex;
@@ -115,114 +156,39 @@ h2 {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   overflow: hidden;
   position: relative;
-  top: var(--btn-top, 0px);
-  left: var(--btn-left, 0px);
 }
 
+/* icons inside container */
 .btn-img img {
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  top: var(--img-top, 50%);
+  left: var(--img-left, 50%);
+  transform: translate(-50%, -50%);
+  max-width: 70%;
+  max-height: 70%;
   border-radius: 50%;
 }
 
 .card-btn:hover,
 .card-btn:focus {
-    background: rgba(255,255,255,0.18);
-    transform: translateY(-2px);
-    outline: none;
-    border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-3px);
+  outline: none;
+  border-color: rgba(255,255,255,0.24);
 }
 
 .card-btn.active {
-    background: rgba(255,255,255,0.18);
-    border-color: rgba(255,255,255,0.22);
-    transform: translateY(-2px);
-    outline: none;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-}
-
-.card-btn.active .btn-img {
-    background: rgba(255,255,255,0.14);
-}
-
-.card-btn.active:hover,
-.card-btn.active:focus {
-    background: rgba(255,255,255,0.18);
-    border-color: rgba(255,255,255,0.22);
-    transform: translateY(-2px);
-}
-
-.card-btn:focus-visible {
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
-}
-
-/* small responsive tweak */
-@media (max-width: 360px) {
-    .glass-container { width: 280px; height: 260px; margin-bottom: 12px; }
-    .buttons-wrapper .card-buttons { width: 280px; gap: 6px; padding: 6px; }
-    .card-btn { width: 44px; height: 44px; }
-    .btn-img { width: 28px; height: 28px; }
-}
-
-.btn-img {
-  position: relative;
-}
-.btn-img img {
-  position: absolute;
-  top: var(--img-top, 48%);
-  left: var(--img-left, 42%);
-  transform: translate(-50%, -50%);
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 50%;
-}
-
-/* Logout button styled like the login button */
-.logout-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: #fff;
-  color: #000;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 1;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: all 0.18s ease;
-}
-
-.logout-btn:hover,
-.logout-btn:focus {
-  background: transparent;
-  color: #fff;
-  outline: 1px solid #fff;
-  transform: translateY(-2px);
-}
-
-.logout-btn:focus-visible {
-  box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.20);
+  border-color: rgba(255,255,255,0.28);
+  transform: translateY(-3px);
   outline: none;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.14);
 }
 
-@media (max-width: 360px) {
-  .logout-btn {
-    top: 10px;
-    right: 10px;
-    padding: 7px 10px;
-    font-size: 12px;
-  }
-}
+/* make sure nested card-content elements don't fix their own height; they should fill what's available */
+.card-content { height: auto; padding-right: 8px; }
 
-.card-content {
-  max-height: 170px;
-  overflow: auto;
-  padding-right: 6px;
-}
-
+/* pie chart area */
 #pie-chart {
   width: 100%;
   display: flex;
@@ -232,31 +198,28 @@ h2 {
 }
 
 #pie-chart svg {
-  max-width: 260px;
+  max-width: 320px;
   width: 100%;
   height: auto;
   display: block;
 }
 
-.card-content::-webkit-scrollbar { width: 8px; height: 8px; }
-.card-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 6px; }
-.card-content::-webkit-scrollbar-track { background: transparent; }
-
-#spider-chart svg { max-width: 180px; width: 100%; height: auto; display:block; }
+#spider-chart svg { max-width: 260px; width: 100%; height: auto; display:block; }
 #spider-chart text { pointer-events: none; }
 
+/* error box */
 .error-box {
   display: block;
   margin-top: 12px;
   padding: 10px 12px 10px 18px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #fff;
-  font-size: 0.95em;
+  font-size: 0.98em;
   text-align: left;
-  line-height: 1.2;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  line-height: 1.25;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -274,10 +237,85 @@ h2 {
   background: linear-gradient(180deg,#6bb0ff,#4dff82);
 }
 
-@media (max-width: 360px) {
-  .glass-container { width: calc(100% - 24px); }
-  .error-box {
-    font-size: 0.9em;
-    padding: 7px 10px 7px 16px;
+/* logout button */
+.logout-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #fff;
+  color: #000;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+  transition: all 0.18s ease;
+}
+
+/* xp list container: flexible scroll area inside .card-content */
+.xp-list-container {
+  display: block;
+  /* allow the list to grow; let .card-content handle scrolling */
+  max-height: none;
+  overflow: visible;    /* IMPORTANT: remove internal scroll */
+  padding-right: 6px;
+  margin-top: 6px;
+}
+
+
+/* ultra-simple list reset */
+.xp-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* item tweaks */
+.xp-item strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* nicer bar spacing on very small containers */
+.xp-bar-wrap { height: 10px; }
+.xp-bar { height: 100%; border-radius: 6px; }
+
+/* responsive: on narrow screens use flexible height rather than fixed */
+@media (max-width: 520px) {
+  .glass-container {
+    height: auto;           /* allow the card to grow on small screens */
+    padding: 12px 16px;
+    min-height: 320px;
+    width: calc(100% - 36px);
   }
+  .buttons-wrapper { width: calc(100% - 36px); }
+  .card-btn { width: 48px; height: 48px; }
+  .btn-img { width: 36px; height: 36px; }
+  #pie-chart svg { max-width: 260px; }
+  .card-content { max-height: 200px; }
+}
+
+@media (max-width: 360px) {
+  .glass-container { width: calc(100% - 28px); min-height: 300px; }
+  .buttons-wrapper { width: calc(100% - 28px); }
+  .card-btn { width: 44px; height: 44px; }
+  .btn-img { width: 32px; height: 32px; }
+  .logout-btn { top: 10px; right: 10px; padding: 7px 10px; font-size: 12px; }
+}
+
+.card-content.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center vertically */
+  align-items: flex-start; /* keep text left-aligned */
+  gap: 8px;                /* small vertical gap between lines */
+  overflow: visible;       /* let the outer .card-content handle scrolling if needed */
+  /* keep existing padding but remove extra top/bottom space so it visually centers */
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
