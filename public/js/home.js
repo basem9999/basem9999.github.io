@@ -29,14 +29,23 @@ export function formatNumber(n) {
 
 export function calculateXp(totalXP) {
   const n = Number(totalXP) || 0;
-  if (n < 1024) return `${n} XP`;
-  if (n < 1024 * 1024) {
-    const kb = n / 1024;
-    return `${kb.toFixed(2)} KB`;
+
+  // small values: show as plain XP
+  if (n < 1000) return `${n} XP`;
+
+  // thousands: use decimal kilo (1000)
+  if (n < 1000 * 1000) {
+    const kb = n / 1000;
+    const s = Number.isInteger(kb) ? String(kb) : kb.toFixed(2).replace(/\.00$/, "");
+    return `${s} kB`;
   }
-  const mb = n / (1024 * 1024);
-  return `${mb.toFixed(2)} MB`;
+
+  // millions: show as MB (decimal)
+  const mb = n / (1000 * 1000);
+  const s = Number.isInteger(mb) ? String(mb) : mb.toFixed(2).replace(/\.00$/, "");
+  return `${s} MB`;
 }
+
 
 function renderView(name) {
   const cc = document.getElementById("card-content");

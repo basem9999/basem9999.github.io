@@ -10,8 +10,19 @@
     totalUp
     totalDown
 
-    # Aggregate of all XP transactions
-    transactions_aggregate(where: { type: { _eq: "xp" } }) {
+    # Aggregate of XP transactions in bh-module (excluding piscines)
+    transactions_aggregate(
+      where: {
+        type: { _eq: "xp" }
+        path: { _like: "/bahrain/bh-module/%" }
+        _not: {
+          _or: [
+            { path: { _like: "/bahrain/bh-module/piscine-js/%" } }
+            { path: { _like: "/bahrain/bh-module/piscine-rust/%" } }
+          ]
+        }
+      }
+    ) {
       aggregate {
         sum {
           amount
@@ -19,7 +30,7 @@
       }
     }
 
-    # Latest 10 XP transactions
+    # Latest 10 XP transactions (no filter, same as before)
     transactions(
       where: { type: { _eq: "xp" } }
       order_by: { createdAt: desc }

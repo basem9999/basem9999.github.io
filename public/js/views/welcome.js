@@ -27,7 +27,7 @@ export function renderWelcome(cachedData, getHelper) {
     <p id="user-id" class="muted">ID: ${id}</p>
     <p id="user-name" class="muted">Name: <strong>${(firstName + ' ' + lastName).trim() || 'N/A'}</strong></p>
     <p id="user-email" class="muted">Email: ${email}</p>
-    <p id="user-xp" class="muted">XP amount: <strong>${xpFormatted}</strong> <span class="muted" style="font-size:12px;">(for all events)</span></p>
+    <p id="user-xp" class="muted">XP amount: <strong>${xpFormatted}</strong> <span class="muted" style="font-size:12px;">(for the module)</span></p>
 
     <!-- informational box styled the same as the login error-box -->
     <div class="error-box" role="note" aria-live="polite" style="display:block; margin-top:12px;">

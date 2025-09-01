@@ -74,7 +74,7 @@ export function renderProjects(cachedData) {
 
   // Use a flexible container so it fills the card and scrolls if needed
   document.getElementById("card-content").innerHTML = `
-    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for all events)</span></p>
+    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for the module)</span></p>
     <div class="xp-list-container">
       <ul class="xp-list">
         ${itemsHtml}
@@ -113,7 +113,7 @@ export function renderStats(cachedData) {
   const itemsHtml = renderListItems(transactions, totalXP);
 
   document.getElementById("card-content").innerHTML = `
-    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for all events)</span></p>
+    <p class="muted">Total XP: <strong>${totalXPFormatted}</strong> <span class="muted" style="font-size:12px;">(for the module)</span></p>
     <div class="xp-list-container">
       <ul class="xp-list">
         ${itemsHtml}
