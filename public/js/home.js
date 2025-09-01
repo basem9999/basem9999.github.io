@@ -30,40 +30,50 @@ export function formatNumber(n) {
 export function calculateXp(totalXP) {
   const n = Number(totalXP) || 0;
 
-  // small values: show as plain XP
   if (n < 1000) return `${n} XP`;
 
-  // thousands: use decimal kilo (1000)
   if (n < 1000 * 1000) {
     const kb = n / 1000;
     const s = Number.isInteger(kb) ? String(kb) : kb.toFixed(2).replace(/\.00$/, "");
     return `${s} kB`;
   }
 
-  // millions: show as MB (decimal)
   const mb = n / (1000 * 1000);
   const s = Number.isInteger(mb) ? String(mb) : mb.toFixed(2).replace(/\.00$/, "");
   return `${s} MB`;
 }
 
-
 function renderView(name) {
   const cc = document.getElementById("card-content");
+  const normalized = String(name || "").toLowerCase().trim();
+
   if (cc) {
-    if (name === "welcome") {
+    if (normalized === "welcome") {
       cc.classList.add("centered");
     } else {
       cc.classList.remove("centered");
     }
   }
 
-  switch (name) {
-    case "welcome": renderWelcome(cachedData, get); break;
-    case "activity": renderPieChart(cachedData); break;
-    case "xp": renderProjects(cachedData); break;
-    case "projects": renderSkillsView(cachedData); break;
-    case "stats": renderStats(cachedData); break;
-    default: renderWelcome(cachedData, get); break;
+  switch (normalized) {
+    case "welcome":
+      renderWelcome(cachedData, get);
+      break;
+    case "ratio":
+      renderPieChart(cachedData);
+      break;
+    case "top projects":
+      renderProjects(cachedData);
+      break;
+    case "top skills":
+      renderSkillsView(cachedData);
+      break;
+    case "history":
+      renderStats(cachedData);
+      break;
+    default:
+      renderWelcome(cachedData, get);
+      break;
   }
 }
 
@@ -91,14 +101,12 @@ function signOutAndRedirect(reason) {
 }
 
 async function init() {
-  // check token presence, otherwise send user to login
   const token = localStorage.getItem("authToken");
   if (!token) {
     window.location.href = "/index.html";
     return;
   }
 
-  // fetch user data; handle expired/invalid JWT specially
   try {
     cachedData = await fetchUserData(token);
   } catch (err) {

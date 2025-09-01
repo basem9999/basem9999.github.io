@@ -61,6 +61,8 @@ body {
   flex-direction: column;
   gap: 8px;
   min-height: 0;
+
+  flex: 1 1 auto;
 }
 
 h2 {
@@ -282,7 +284,11 @@ h2 {
   justify-content: center;
   align-items: flex-start;
   gap: 8px;
-  overflow: visible;
   padding-top: 4px;
   padding-bottom: 4px;
+
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
